@@ -16,12 +16,15 @@ SET STARTMIN TO 35.
 SET STARTSEC TO 10.
 
 //LV-PARAMETER AND LAUNCHPARAMETER
-SET SRB_STAGE TO 1.			// SRB STAGES
+SET SRB_STAGE TO 0.			// SRB STAGES
 SET LIFT_STAGE TO 1.      		// LIFTING STAGE 
 SET PRELAUNCH_STG TO 1.			// PRE LAUNCH STAGE
-SET LV_FAIRING TO 0.
-SET LV_ANTENNA TO 0.
-SET LV_ESCAPE TO 1.
+SET LV_FAIRING TO 0.			// FAIRING EXISTANT
+SET LV_ANTENNA TO 0.			// ANTENNA SWITCH 
+SET LV_ESCAPE TO 1.			// ESCAPE SYSTEM
+SET LV_PCS TO 1.			// PROPELLANT CROSSFEED SYSTEM
+SET LV_PCS_STAGE TO 2.			// PROPELLANT CROSSFEED SYSTEM STAGES
+
 
 //ADDITIONAL PARAMETER FOR LAUNCH
 SET FAIR_SEP_HEIGHT TO 51000.		// FAIRING SEPERATION HEIGHT
@@ -47,9 +50,9 @@ set euler to 2.718281828.
 set pi to 3.1415926535.
 //GRAV TURN PARAMETERS PART II
 set pitch to 0.
-set pitch0 to 0.
-set pitch1 to 90.
-//set config:safe to False.   // JUST IN CASE
+set pitch0 to 0.	
+set pitch1 to 90.			// (www) NOT THE HEADING
+//set config:safe to False. 		// (www) JUST IN CASE
 
 // START COUNTDOWN AND RUN
 run lctl.
@@ -74,8 +77,7 @@ WHEN SHIP:ALTITUDE > FAIR_SEP_HEIGHT AND LV_FAIRING = 1 THEN {
 }.
 
 //SEPERATIING LAUNCH ESCAPE SYSTEM
-//WHEN SHIP:ALTITUDE > FAIR_SEP_HEIGHT AND LV_ESCAPE = 1 THEN {
-WHEN SHIP:ALTITUDE > 2000 AND LV_ESCAPE = 1 THEN {
+WHEN SHIP:ALTITUDE > FAIR_SEP_HEIGHT AND LV_ESCAPE = 1 THEN {
 	PrtLog("JETTISON LAUNCH ESCAPE SYSTEM").
 	set p_lescape to ship:partsnamed("LaunchEscapeSystem")[0].
 	set m_lescape to p_lescape:getmodule("ModuleEnginesFX").
@@ -105,6 +107,16 @@ WHEN STAGE:SOLIDFUEL < 1 AND SRB_STAGE > 0 THEN {
 	STAGE.
 }.
 
+// SEPERATING PROPELLANT CROSSFEED SYSTEM (PCS aka ASPARAGUS BOOSTER).
+WHEN STAGE:LIQUIDFUEL < 5 AND SHIP:STATUS ="FLYING" AND LV_PCS = 1 AND LV_PCS_STAGE > 0 THEN {
+	PrtLog("LIQ.FUEL IN PCS STAGE "+LV_PCS_STAGE+" EMPTY - STAGING").
+	STAGE.
+	SET LV_PCS_STAGE TO LV_PCS_STAGE -1.
+	PrtLog("REMAINING PCS STAGES: "+LV_PCS_STAGE).
+	PRESERVE.
+}.
+
+
 // STAGE WHEN OUT OF FUEL
 WHEN SHIP:MAXTHRUST < 0.1 AND LIFT_STAGE > 0 THEN {
 	PrtLog("LIQ.FUEL END - STAGING").
@@ -132,38 +144,36 @@ PrtMissParam().
     if ar > gt0 and ar < gt1 {
 	set pitch to (90*(((cos(((ar - gt0)/(gt1 - gt0))*180)+1)/2)-1))+90. 			//FREAKY MATH THANKS INTERNET
 	lock steering to HEADING(DIRHDG,pitch).
-//        print tset at (20,11).
-//  	print round(pitch) at (29,11).
+//   print tset at (20,11). 				// DEBUG STUFF
+//   print round(pitch) at (29,11).			// DEBUG STUFF
     }
     if ar > gt1 {
 	lock steering to HEADING(DIRHDG,pitch).
     }
-    // dynamic pressure q
+//(www) dynamic pressure q
     set vsm to velocity:surface:mag.
     set exp to -altitude/sh.
-    set ad to ad0 * euler^exp.    // atmospheric density
+    set ad to ad0 * euler^exp.    			//(www) atmospheric density - doesn't makes sense
     set q to 0.5 * ad * vsm^2.
-    print round(q)+"  " at (56,3).
-    // calculate target velocity
+    print round(q)+"  " at (56,3).			//PRINT MAX Q IN SCREEN
+//(www) calculate target velocity			
     set vl to maxq*0.9.
     set vh to maxq*1.1.
     if q < vl { set tset to 1. }
     if q > vl and q < vh { set tset to (vh-q)/(vh-vl). }
     if q > vh { set tset to 0. }
- //   print "throttle: " + round(tset,2) + "   " at (0,34).
     wait 0.1.
 }
 set tset to 0.
 if altitude < ha {
     PrtLog("WAITING TO LEAVE ATMOSPHERE").
-    //lock steering to up + R(0, pitch, 0).       // roll for orbital orientation
     lock steering to HEADING(DIRHDG,pitch).
-    // thrust to compensate atmospheric drag losses
+    // (www) thrust to compensate atmospheric drag losses
     until altitude > ha {
 	PrtMissParam().
         // calculate target velocity
         if apoapsis >= DIRAP { set tset to 0. }
-        if apoapsis < DIRAP { set tset to (DIRAP-apoapsis)/(DIRAP*0.01). }
+        if apoapsis < DIRAP { set tset to (DIRAP-apoapsis)/(DIRAP*0.01). }  //mostly from (www) changes made
         wait 0.1.
     }
 }.

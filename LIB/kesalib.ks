@@ -40,6 +40,7 @@ print round(STAGE:ELECTRICCHARGE,1) AT (38,4).		//FUEL (STAGE) ELECTRIC
 //COL 3
 print MNODE+"    " at (56,1).	//NODE AVIABLE?
 print COMCON+"    " at (56,2). //CONNECTED ?
+print round(STAGE:LIQUIDFUEL,1) AT (56,4).
 }.
 
 declare function f_getCOM {
