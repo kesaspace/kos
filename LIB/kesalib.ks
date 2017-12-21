@@ -53,13 +53,12 @@ return TTIME.
 }.
 
 declare function copylog {
-copypath ("mission.log","0:log_"+SHIP:NAME+"_"+TIME:YEAR+"_"+TIME:DAY+"_"+TIME:HOUR+"_"+TIME:MINUTE+"_"+round(TIME:SECOND)).
+copypath ("mission.log","0:log_"+SHIP:NAME+"_"+TIME:YEAR+"_"+TIME:DAY+"_"+TIME:HOUR+"_"+TIME:MINUTE+"_"+round(TIME:SECOND)+".log").
 }.
 
 declare function deletelog {
 deletepath ("mission.log").
 }.
-
 
 SET LOGFILE TO "mission.log".
 declare function PrtLog {
