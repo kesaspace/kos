@@ -1,36 +1,12 @@
 // LAUNCH TO ORBIT
 // LAUNCHSCRIPT ALL IN ONE FOR KEerbin Space Agency
 run kesalib.
+run mission.
 
-// SETTINGS
-
-//DIRECTION
-SET DIRHDG TO 90.			// DIRECTION OF FLIGHT
-SET DIRAP TO 100000.			// TARGET AP 
-
-//START DATE AND YEAR (EXPERIMENTAL) 
-SET STARTYEAR TO 1.
-SET STARTDAY TO 211.
-SET STARTHOUR TO 0.
-SET STARTMIN TO 35.
-SET STARTSEC TO 10.
-
-//LV-PARAMETER AND LAUNCHPARAMETER
-SET SRB_STAGE TO 0.			// SRB STAGES
-SET LIFT_STAGE TO 1.      		// LIFTING STAGE 
-SET PRELAUNCH_STG TO 1.			// PRE LAUNCH STAGE
-SET LV_FAIRING TO 0.			// FAIRING EXISTANT
-SET LV_ANTENNA TO 0.			// ANTENNA SWITCH 
-SET LV_ESCAPE TO 1.			// ESCAPE SYSTEM
-SET LV_PCS TO 1.			// PROPELLANT CROSSFEED SYSTEM
-SET LV_PCS_STAGE TO 2.			// PROPELLANT CROSSFEED SYSTEM STAGES
-
-
+// LV PARAMETERS ARE IN BOOT FILE NOW.
 //ADDITIONAL PARAMETER FOR LAUNCH
 SET FAIR_SEP_HEIGHT TO 51000.		// FAIRING SEPERATION HEIGHT
 SET COM_SWITCH_HEIGHT TO 60000. 	// HEIGHT FOR SWITCH COM SYSTEMS
-SET CNTDWN TO 1.			// COUNTDOWN	
-SET SIMRUN TO 1.			// SIM RUN 1 YES 0 NO 
 
 // GRAV TURN PARAMETERS 
 set gt0 to 150.				// FIRST HEIGHT FOR DECISION
@@ -108,7 +84,7 @@ WHEN STAGE:SOLIDFUEL < 1 AND SRB_STAGE > 0 THEN {
 }.
 
 // SEPERATING PROPELLANT CROSSFEED SYSTEM (PCS aka ASPARAGUS BOOSTER).
-WHEN STAGE:LIQUIDFUEL < 5 AND SHIP:STATUS ="FLYING" AND LV_PCS = 1 AND LV_PCS_STAGE > 0 THEN {
+WHEN STAGE:LIQUIDFUEL < 1 AND SHIP:STATUS ="FLYING" AND LV_PCS = 1 AND LV_PCS_STAGE > 0 THEN {
 	PrtLog("LIQ.FUEL IN PCS STAGE "+LV_PCS_STAGE+" EMPTY - STAGING").
 	STAGE.
 	SET LV_PCS_STAGE TO LV_PCS_STAGE -1.
@@ -142,7 +118,7 @@ PrtMissParam().
     set ar to alt:radar.
     // control attitude
     if ar > gt0 and ar < gt1 {
-	set pitch to (90*(((cos(((ar - gt0)/(gt1 - gt0))*180)+1)/2)-1))+90. 			//FREAKY MATH THANKS INTERNET
+	set pitch to (90*(((cos(((ar - gt0)/(gt1 - gt0))*180)+1)/2)-1))+90. 		//FREAKY MATH THANKS INTERNET
 	lock steering to HEADING(DIRHDG,pitch).
 //   print tset at (20,11). 				// DEBUG STUFF
 //   print round(pitch) at (29,11).			// DEBUG STUFF
@@ -151,11 +127,16 @@ PrtMissParam().
 	lock steering to HEADING(DIRHDG,pitch).
     }
 //(www) dynamic pressure q
-    set vsm to velocity:surface:mag.
-    set exp to -altitude/sh.
-    set ad to ad0 * euler^exp.    			//(www) atmospheric density - doesn't makes sense
-    set q to 0.5 * ad * vsm^2.
+    //set vsm to velocity:surface:mag.
+    //set exp to -altitude/sh.
+    //set ad to ad0 * euler^exp.    			//(www) atmospheric density 
+    set ad to ad0 * euler^(-altitude/sh).    			//(www) atmospheric density 
+    //set q to 0.5 * ad * vsm^2.
+    set q to 0.5 * ad * (velocity:surface:mag)^2.
     print round(q)+"  " at (56,3).			//PRINT MAX Q IN SCREEN
+
+
+
 //(www) calculate target velocity			
     set vl to maxq*0.9.
     set vh to maxq*1.1.
@@ -184,15 +165,15 @@ PrtLog("Apoapsis: " + round(apoapsis/1000) + "km").
 Prtlog("Periapsis: " + round(periapsis/1000) + "km -> " + round(DIRAP/1000) + "km").
 
 // present orbit properties
-set vom to velocity:orbit:mag.  // actual velocity
-set r to rb + altitude.         // actual distance to body
-set raa to rb + apoapsis.        // radius in apoapsis
-set va to sqrt( vom^2 + 2*mu*(1/raa - 1/r) ). // velocity in apoapsis
-set a to (periapsis + 2*rb + apoapsis)/2. // semi major axis present orbit
+set vom to velocity:orbit:mag. 					 // actual velocity
+set r to rb + altitude.      					 // actual distance to body
+set raa to rb + apoapsis.       				 // radius in apoapsis
+set va to sqrt( vom^2 + 2*mu*(1/raa - 1/r) ). 			 // velocity in apoapsis
+set a to (periapsis + 2*rb + apoapsis)/2. 			 // semi major axis present orbit
 // future orbit properties
-set r2 to rb + apoapsis.    // distance after burn at apoapsis
-set a2 to (DIRAP + 2*rb + apoapsis)/2. // semi major axis target orbit
-set v2 to sqrt( vom^2 + (mu * (2/r2 - 2/r + 1/a - 1/a2 ) ) ).
+set r2 to rb + apoapsis.    					 // distance after burn at apoapsis
+set a2 to (DIRAP + 2*rb + apoapsis)/2. 				 // semi major axis target orbit
+set v2 to sqrt( vom^2 + (mu * (2/r2 - 2/r + 1/a - 1/a2 ) ) ).    // I HAVE NO IDEA
 // setup node 
 set deltav to v2 - va.
 PrtLog("APOAPSIS BURN: " + round(va) + ", DV:" + round(deltav) + " -> " + round(v2) + "m/s").
@@ -220,6 +201,7 @@ PrtMissParam().
 wait 0.1.
 }.
 
+//PRINT PARAMETERS UNTIL HALF BURNING TIME
 UNTIL nd:eta <= (dob/2) {
 PrtMissParam().
 wait 0.1.
@@ -265,5 +247,9 @@ PrtLog("PROGRAM FINISHED").
 SET END_PROGRAM TO 1.
 
 WAIT UNTIL END_PROGRAM =1. 
+copylog().
+deletelog().
 PrtLog("DELETING LTO FROM MEMORY").
 deletepath("1:/lto").
+deletepath("1:/mission").
+

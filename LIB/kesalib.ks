@@ -52,10 +52,23 @@ set TTIME TO TIME:HOUR+":"+TIME:MINUTE+":"+round(TIME:SECOND).
 return TTIME.
 }.
 
+declare function copylog {
+copypath ("mission.log","0:log_"+SHIP:NAME+"_"+TIME:YEAR+"_"+TIME:DAY+"_"+TIME:HOUR+"_"+TIME:MINUTE+"_"+round(TIME:SECOND)).
+}.
+
+declare function deletelog {
+deletepath ("mission.log").
+}.
+
+
+SET LOGFILE TO "mission.log".
 declare function PrtLog {
 declare parameter LOGTEXT.
 PRINT "| "+f_getTIME+"("+round(MISSIONTIME,2)+"): "+LOGTEXT AT(0,TEXTLINE).
 PRINT "|" AT (70,TEXTLINE).
+IF LOG2FILE = 1 { 
+log f_getTIME+"("+round(MISSIONTIME,2)+"): "+LOGTEXT TO LOGFILE. 
+}.
 SET TEXTLINE TO TEXTLINE +1.
 IF TEXTLINE > 49 {
 MissScrInit().
