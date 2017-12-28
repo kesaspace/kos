@@ -4,9 +4,9 @@ run kesalib.
 run bodyprops.
 clearscreen.
 // create periapsis maneuver node
-PrtLog("Periapsis maneuver, orbiting " + body:name).
-PrtLog("Apoapsis: " + round(apoapsis/1000) + "km -> " + round(alt/1000) + "km").
-PrtLog("Periapsis: " + round(periapsis/1000) + "km").
+PrtLog("PERIAPSIS MENEUVER, ORBITING " + body:name).
+PrtLog("APOAPSIS: " + round(apoapsis/1000) + "km -> " + round(alt/1000) + "km").
+PrtLog("PERIAPSIS: " + round(periapsis/1000) + "km").
 // constants: mu, rb
 // present orbit properties
 set vom to velocity:orbit:mag.  // actual velocity
@@ -20,8 +20,8 @@ set a2 to (alt + 2*rb + periapsis)/2. // semi major axis target orbit
 set v2 to sqrt( vom^2 + (mu * (2/r2 - 2/r + 1/a - 1/a2 ) ) ).
 // setup node 
 set deltav to v2 - va.
-PrtLog("Periapsis burn: " + round(va) + ", dv:" + round(deltav) + " -> " + round(v2) + "m/s").
+PrtLog("PERIAPSIS BURN: " + round(va) + ", dv:" + round(deltav) + " -> " + round(v2) + "m/s").
 set nd to node(time:seconds + eta:periapsis, 0, 0, deltav).
 add nd.
-PrtLog("Node created.").
+PrtLog("NODE CREATED").
 

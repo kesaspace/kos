@@ -127,14 +127,10 @@ PrtMissParam().
 	lock steering to HEADING(DIRHDG,pitch).
     }
 //(www) dynamic pressure q
-    //set vsm to velocity:surface:mag.
-    //set exp to -altitude/sh.
-    //set ad to ad0 * euler^exp.    			//(www) atmospheric density 
-    set ad to ad0 * euler^(-altitude/sh).    			//(www) atmospheric density 
-    //set q to 0.5 * ad * vsm^2.
+    set ad to ad0 * euler^(-altitude/sh).    		//(www) atmospheric density 
     set q to 0.5 * ad * (velocity:surface:mag)^2.
+    print "Q:" at (49,3).				//PRINT NICE Q	
     print round(q)+"  " at (56,3).			//PRINT MAX Q IN SCREEN
-
 
 
 //(www) calculate target velocity			
@@ -160,9 +156,9 @@ if altitude < ha {
 }.
 lock throttle to 0.
 // CREATING MANEUVER NODE WITH "DIRAP" AS A TARGET APOAPSIS (APONODE)
-PrtLog("Apoapsis maneuver, orbiting " + body:name).
-PrtLog("Apoapsis: " + round(apoapsis/1000) + "km").
-Prtlog("Periapsis: " + round(periapsis/1000) + "km -> " + round(DIRAP/1000) + "km").
+PrtLog("APOAPSIS MANEUVER, ORBITING " + body:name).
+PrtLog("APOAPSIS: " + round(apoapsis/1000) + "km").
+Prtlog("PERIAPSIS: " + round(periapsis/1000) + "km -> " + round(DIRAP/1000) + "km").
 
 // present orbit properties
 set vom to velocity:orbit:mag. 					 // actual velocity
@@ -184,12 +180,12 @@ PrtLog("NODE CREATED").
 
 // EXECUTE MANEUVER NODE (EXENODE)
 set nd to nextnode.
-PrtLog("Node apoapsis: " + round(nd:orbit:apoapsis/1000,2) + "km, periapsis: " + round(nd:orbit:periapsis/1000,2) + "km").
-PrtLog("NODE in: " + round(nd:eta) + ", DeltaV: " + round(nd:deltav:mag)).
+PrtLog("NODE APOAPSIS: " + round(nd:orbit:apoapsis/1000,2) + "km, PERIAPSIS: " + round(nd:orbit:periapsis/1000,2) + "km").
+PrtLog("NODE IN: " + round(nd:eta) + ", DELTA-V: " + round(nd:deltav:mag)).
 set maxa to maxthrust/mass.
 set dob to nd:deltav:mag/maxa.     // incorrect: should use tsiolkovsky formula
-PrtLog(" MAX ACC: " + round(maxa) + "M/S^2, BURN DURATION: " + round(dob) + "S").
-PrtLog("Turning ship to burn direction.").
+PrtLog("MAX ACC: " + round(maxa) + "m/s^2, BURN DURATION: " + round(dob) + "s").
+PrtLog("TURNING SHIP TO BURN DIRECTION").
 sas off.
 rcs off.
 // workaround for steering:pitch not working with node assigned
@@ -207,7 +203,7 @@ PrtMissParam().
 wait 0.1.
 }.
 
-PrtLog("ORBITAL BURN START " + round(nd:eta) + "S BEFORE APOAPSIS.").
+PrtLog("ORBITAL BURN START " + round(nd:eta) + "s BEFORE APOAPSIS.").
 set tset to 0.
 lock throttle to tset.
 // keep ship oriented to burn direction even with small dv where node:prograde wanders off 
@@ -221,24 +217,24 @@ until done {
     set maxa to maxthrust/mass.
     set tset to min(nd:deltav:mag/maxa, 1).
     if once and tset < 1 {
-	PrtLog("Throttling down, remain dv " + round(nd:deltav:mag) + "m/s, fuel:" + round(stage:liquidfuel)).
+	PrtLog("THROTTLING DOWN, REMAIN DV " + round(nd:deltav:mag) + "m/s, FUEL:" + round(stage:liquidfuel)).
         set once to False.
     }
     if vdot(dv0, nd:deltav) < 0 {
-       PrtLog("End burn, remain dv " + round(nd:deltav:mag,1) + "m/s, vdot: " + round(vdot(dv0, nd:deltav),1)).
+       PrtLog("END BURN, REMAIN DV " + round(nd:deltav:mag,1) + "m/s, vdot: " + round(vdot(dv0, nd:deltav),1)).
         lock throttle to 0.
         break.
     }
     if nd:deltav:mag < 0.1 {
-        PrtLog("Finalizing, remain dv " + round(nd:deltav:mag,1) + "m/s, vdot: " + round(vdot(dv0, nd:deltav),1)).
+        PrtLog("FINALIZING, REMAIN DV " + round(nd:deltav:mag,1) + "m/s, vdot: " + round(vdot(dv0, nd:deltav),1)).
         wait until vdot(dv0, nd:deltav) < 0.5.
         lock throttle to 0.
-        PrtLog("End burn, remain dv " + round(nd:deltav:mag,1) + "m/s, vdot: " + round(vdot(dv0, nd:deltav),1)).
+        PrtLog("END BURN, REMAIN dv " + round(nd:deltav:mag,1) + "m/s, vdot: " + round(vdot(dv0, nd:deltav),1)).
         set done to True.
     }
 }
 unlock steering.
-PrtLog("APOAPSIS: " + round(apoapsis/1000,2) + "KM, PERIAPSIS: " + round(periapsis/1000,2) + "KM").
+PrtLog("APOAPSIS: " + round(apoapsis/1000,2) + "km, PERIAPSIS: " + round(periapsis/1000,2) + "km").
 PrtLog("FUEL AFTER BURN: " + round(stage:liquidfuel)).
 wait 1.
 remove nd.
@@ -247,9 +243,18 @@ PrtLog("PROGRAM FINISHED").
 SET END_PROGRAM TO 1.
 
 WAIT UNTIL END_PROGRAM =1. 
-copylog().
-deletelog().
+IF addons:rt:hasconnection(SHIP) = True {
+	PrtLog("TRANSFERRING MISSION LOG TO GROUND CONTROLL").
+	copylog().
+	PrtLog("DELETING MISSION LOG FROM MEMORY").
+	deletelog().	
+	PrtLog("STARTINFG NEW MISSION LOG").
+	}
+ELSE 
+	{
+	PrtLog("NO CONNECTION TO GROUND CONTROLL POSSIBLE - MISSION LOG WILL NOT BE COPIED AND DELETED").
+	}.
 PrtLog("DELETING LTO FROM MEMORY").
 deletepath("1:/lto").
 deletepath("1:/mission").
-
+clearscreen.

@@ -4,8 +4,8 @@ run kesalib.
 run bodyprops.
 clearscreen.
 // create apoapsis maneuver node
-PrtLog("Apoapsis maneuver, orbiting " + body:name).
-PrtLog("Apoapsis: " + round(apoapsis/1000) + "km").
+PrtLog("APOAPSIS MANEUVER, ORBITING " + body:name).
+PrtLog("APOAPSIS: " + round(apoapsis/1000) + "km").
 //Prtlog("Periapsis: " + round(periapsis/1000) + "km -> " + round(alt/1000) + "km").
 
 // present orbit properties
@@ -20,7 +20,7 @@ set a2 to (nodealt + 2*rb + apoapsis)/2. // semi major axis target orbit
 set v2 to sqrt( vom^2 + (mu * (2/r2 - 2/r + 1/a - 1/a2 ) ) ).
 // setup node 
 set deltav to v2 - va.
-PrtLog("Apoapsis burn: " + round(va) + ", dv:" + round(deltav) + " -> " + round(v2) + "m/s").
+PrtLog("APOAPSIS BURN: " + round(va) + ", dv:" + round(deltav) + " -> " + round(v2) + "m/s").
 set nd to node(time:seconds + eta:apoapsis, 0, 0, deltav).
 add nd.
-PrtLog("Node created.").
+PrtLog("NODE CREATED").
