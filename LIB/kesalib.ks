@@ -68,7 +68,7 @@ declare parameter LOGTEXT.
 PRINT "| "+f_getTIME+"("+round(MISSIONTIME,2)+"): "+LOGTEXT AT(0,TEXTLINE).
 PRINT "|" AT (70,TEXTLINE).
 IF LOG2FILE = 1 { 
-log f_getTIME+"("+round(MISSIONTIME,2)+"): "+LOGTEXT TO LOGFILE. 
+log "Y "+TIME:YEAR+" D "+TIME:DAY+" "+f_getTIME+"("+round(MISSIONTIME,2)+"): "+LOGTEXT TO LOGFILE. 
 }.
 SET TEXTLINE TO TEXTLINE +1.
 IF TEXTLINE > 49 {
