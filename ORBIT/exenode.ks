@@ -68,4 +68,5 @@ PrtLog("FUEL FUEL BURN: " + round(stage:liquidfuel)).
 wait 1.
 remove nd.
 set NODE_FINISHED TO 1.
+clearscreen.
 

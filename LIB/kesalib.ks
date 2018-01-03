@@ -13,7 +13,7 @@ SET TEXTLINE TO 9.
 PRINT "---------------------------------------------------------------------".
 PRINT " DATE                  | FUEL SOLID            | NODE                ".
 PRINT " TIME                  | FUEL LQ-SHIP          | COM                 ".
-PRINT " MTIME                 | FUEL LQ-STAGu         |                     ".
+PRINT " MTIME                 | FUEL LQ-STAG          |                     ".
 PRINT " ORBITING              | FUEL MPROP            |	                    ".
 PRINT " STATUS                | E-CHARGE              |	                    ".
 PRINT "---------------------------------------------------------------------".
