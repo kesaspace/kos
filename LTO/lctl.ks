@@ -1,5 +1,4 @@
 clearscreen.
-//run params.
 run kesalib.
 
 //PARAMETERS
