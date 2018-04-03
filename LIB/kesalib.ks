@@ -6,8 +6,8 @@
 global TTIME is 0.
 
 declare function MissScrInit {
-SET TERMINAL:HEIGHT TO 50.
-SET TERMINAL:WIDTH TO 70.
+//SET TERMINAL:HEIGHT TO 50.
+//SET TERMINAL:WIDTH TO 70.
 CLEARSCREEN.
 SET TEXTLINE TO 9.
 PRINT "---------------------------------------------------------------------".
@@ -20,6 +20,12 @@ PRINT "---------------------------------------------------------------------".
 PRINT "                                                                     ".
 PRINT "---------------------------------------------------------------------".
 PRINT SHIP:NAME+" MISSION LOG"  at (23,7).
+}.
+
+declare function LandScrInit {
+print "ALT-ORBIT:" at (50,3).		
+print "ALT-RADAR:" at (50,4).
+print "V-SPEED:" at (50,5).
 }.
 
 declare function PrtMissParam {
@@ -44,6 +50,12 @@ print MNODE+"    " at (56,1).	//NODE AVIABLE?
 print COMCON+"    " at (56,2). //CONNECTED ?
 }.
 
+declare function PrtLandParam {
+print round(SHIP:ALTITUDE,2) at (55,3).			//SHIP ALTITUDE
+print round(ALT:RADAR,2) at (55,4).			//SHIP ALTITUDE (RADAR)
+print round(SHIP:VERTICALSPEED,3) at (55,5).			//SHIP VERTICAL SPEED
+}.
+
 declare function f_getCOM {
 if addons:rt:hasconnection(SHIP) = True { set COMCON to "CONNECTED". } else { SET COMCON TO "NOT CONNECTED". }. //HAS THE SHIP CONNECTION
 }.
@@ -60,7 +72,7 @@ copypath ("mission.log","0:log_"+SHIP:NAME+"_"+TIME:YEAR+"_"+TIME:DAY+"_"+TIME:H
 //DELETE LOG FROM ACTIVE ARCHIVE
 declare function deletelog {
 deletepath ("mission.log").
-}.
+}.		
 //PRINT LOG IN LOGFILE AND SCREEN
 SET LOGFILE TO "mission.log".
 declare function PrtLog {
