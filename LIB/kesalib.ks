@@ -23,9 +23,9 @@ PRINT SHIP:NAME+" MISSION LOG"  at (23,7).
 }.
 
 declare function LandScrInit {
-print "ALT-ORBIT:" at (50,3).		
-print "ALT-RADAR:" at (50,4).
-print "V-SPEED:" at (50,5).
+print "ALT-ORB:" at (49,3).		
+print "ALT-RAD:" at (49,4).
+print "V-SPD:" at (49,5).
 }.
 
 declare function PrtMissParam {
@@ -38,22 +38,22 @@ print " D:"+TIME:DAY AT (14,1).				//DAY
 print f_getTIME at (10,2).				//TIME
 print round (MISSIONTIME,2) AT (10,3).			//MISSSION TIME
 print BODY:NAME at (10,4).				//ORBITING BODY
-print SHIP:STATUS+"      " at (10,5). //STATUS
+print SHIP:STATUS+"   " at (10,5). 			//STATUS
 //COL2 
 print round(STAGE:SOLIDFUEL,1) AT (38,1).    		//FUEL (STAGE) SOLID
 print round(SHIP:LIQUIDFUEL,1) AT (38,2).		//FUEL (SHIP) LIQUID
 print round(STAGE:LIQUIDFUEL,1) AT (38,3).		//FUEL (STAGE) LIQUID
-print STAGE:MONOPROPELLANT AT (38,4).			//FUEL (STAGE) NONOP
+print round(STAGE:MONOPROPELLANT,1) AT (38,4).		//FUEL (STAGE) NONOP
 print round(STAGE:ELECTRICCHARGE,1) AT (38,5).		//FUEL (STAGE) ELECTRIC
 //COL 3
-print MNODE+"    " at (56,1).	//NODE AVIABLE?
-print COMCON+"    " at (56,2). //CONNECTED ?
+print MNODE+"    " at (57,1).				//NODE AVIABLE?
+print COMCON+"    " at (57,2). 				//CONNECTED ?
 }.
 
 declare function PrtLandParam {
-print round(SHIP:ALTITUDE,2) at (55,3).			//SHIP ALTITUDE
-print round(ALT:RADAR,2) at (55,4).			//SHIP ALTITUDE (RADAR)
-print round(SHIP:VERTICALSPEED,3) at (55,5).			//SHIP VERTICAL SPEED
+print round(SHIP:ALTITUDE,1) at (57,3).			//SHIP ALTITUDE
+print round(ALT:RADAR,1) at (57,4).			//SHIP ALTITUDE (RADAR)
+print round(SHIP:VERTICALSPEED,2) at (57,5).		//SHIP VERTICAL SPEED
 }.
 
 declare function f_getCOM {

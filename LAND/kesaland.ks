@@ -1,10 +1,10 @@
 run kesalib.
 
-
 declare parameter ENTRYHEIGHT.
 declare parameter STOPSPEED.
 
 set LOG2FILE TO 0.
+// HEIGHT 
 set h1 to 13000.
 set h2 to 9000.
 set h3 to 2300.
@@ -12,6 +12,19 @@ set h4 to 1300.
 set h5 to 250.
 set h6 to 50.
 set h7 to 20.
+set h8 to 5.
+set h9 to 2.
+
+// SPEED AT HEIGHT h
+set s1 to 75.
+set s2 to 50.
+set s3 to 50. 
+set s4 to 20.
+set s5 to 15.
+set s6 to 3.
+set s7 to 3.
+set s8 to 1.
+set s9 to 0.5.
 
 MissScrInit().				//PRINT BASIC SCREEN 
 LandScrInit().				//PRINT ADDONS FOR LANDING 
@@ -63,18 +76,18 @@ SET TSET TO 0.8.
 
 
 WHEN SHIP:ALTITUDE < h1 THEN {
-PrtLog("BREAKING MANOEUVRE ("+h1+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -75 m/s").
+PrtLog("BREAK. MAN. ("+h1+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -"+s1+" m/s").
 SET TSET TO 1.
-	WHEN SHIP:VERTICALSPEED > -50 THEN {
+	WHEN SHIP:VERTICALSPEED > -s1 THEN {
 	PrtLog("END BREAK. MAN. ("+h1+") AT RADAR ALT "+round(ALT:RADAR,2)).
 	SET TSET TO 0.
 	}.
 }.
 
 WHEN SHIP:ALTITUDE < h2 THEN {
-PrtLog("BREAKING MANOEUVRE ("+h2+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -50 m/s").
+PrtLog("BREAK. MAN. ("+h2+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -"+s2+" m/s").
 SET TSET TO 1.
-	WHEN SHIP:VERTICALSPEED > -50 THEN {
+	WHEN SHIP:VERTICALSPEED > -s2 THEN {
 	PrtLog("END BREAK. MAN. ("+h2+") AT RADAR ALT "+round(ALT:RADAR,2)).
 	SET TSET TO 0.
 	}.
@@ -82,20 +95,20 @@ SET TSET TO 1.
 
 WHEN ALT:RADAR < h3 THEN {
 PrtLog("USING RADAR ALTITUDE").
-PrtLog("BREAKING MANOEUVRE ("+h3+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -40 m/s").
+PrtLog("BREAK. MAN. ("+h3+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -"+s3+" m/s").
 PrtLog("DEPLOYING LANDING LEGS").
 LEGS ON.
 SET TSET TO 1.
-	WHEN SHIP:VERTICALSPEED > -40 THEN {
+	WHEN SHIP:VERTICALSPEED > -s3 THEN {
 	PrtLog("END BREAK.MAN. ("+h3+") AT RADAR ALT "+round(ALT:RADAR,2)).
 	SET TSET TO 0.
 	}.
 }.
 
 WHEN ALT:RADAR < h4 THEN {
-PrtLog("BREAKING MAN. ("+h4+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -20 m/s").
+PrtLog("BREAKING MAN. ("+h4+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -"+s4+" m/s").
 SET TSET TO 1.
-	WHEN SHIP:VERTICALSPEED > -20 THEN {
+	WHEN SHIP:VERTICALSPEED > -s4 THEN {
 	PrtLog("END BREAK. MAN. ("+h4+") AT RADAR ALT "+round(ALT:RADAR,2)).
 	SET TSET TO 0.
 	}.
@@ -103,9 +116,9 @@ SET TSET TO 1.
 
 WHEN ALT:RADAR < h5 THEN {
 PrtLog("BEGINN FINAL LANDING SEQUENCE").
-PrtLog("BREAKING MAN. ("+h5+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -5 m/s").
+PrtLog("BREAKING MAN. ("+h5+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -"+s5+" m/s").
 SET TSET TO 1.
-	WHEN SHIP:VERTICALSPEED > -5 THEN {
+	WHEN SHIP:VERTICALSPEED > -s5 THEN {
 	PrtLog("END BREAK. MAN.("+h5+") AT RADAR ALT "+round(ALT:RADAR,2)).
 	SET TSET TO 0.
 	}.
@@ -113,19 +126,37 @@ SET TSET TO 1.
 
 WHEN ALT:RADAR < h6 THEN {
 PrtLog("FINAL LANDING SEQUENCE").
-PrtLog("BREAKING MAN. ("+h6+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -3 m/s").
+PrtLog("BREAKING MAN. ("+h6+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO "+s6+" m/s").
 SET TSET TO 1.
-	WHEN SHIP:VERTICALSPEED > -3 THEN {
+	WHEN SHIP:VERTICALSPEED > -s6 THEN {
 	PrtLog("END BREAK. MAN. ("+h6+") AT RADAR ALT "+round(ALT:RADAR,2)).
 	SET TSET TO 0.
 	}.
 }.
 
 WHEN ALT:RADAR < h7 THEN {
-PrtLog("BREAKING MAN. ("+h7+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -3 m/s").
+PrtLog("BREAKING MAN. ("+h7+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -"+s7+" m/s").
 SET TSET TO 1.
-	WHEN SHIP:VERTICALSPEED > -3 THEN {
+	WHEN SHIP:VERTICALSPEED > -1 THEN {
 	PrtLog("END BREAK. MAN. ("+h7+") AT RADAR ALT "+round(ALT:RADAR,2)).
+	SET TSET TO 0.
+	}.
+}.
+
+WHEN ALT:RADAR < h8 THEN {
+PrtLog("BREAKING MAN. ("+h8+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -"+s8+" m/s").
+SET TSET TO 1.
+	WHEN SHIP:VERTICALSPEED > -1 THEN {
+	PrtLog("END BREAK. MAN. ("+h8+") AT RADAR ALT "+round(ALT:RADAR,2)).
+	SET TSET TO 0.
+	}.
+}.
+
+WHEN ALT:RADAR < h9 THEN {
+PrtLog("BREAKING MAN. ("+h9+") at VSpeed: "+round(SHIP:VERTICALSPEED,2)+" TO -"+s9+" m/s").
+SET TSET TO 1.
+	WHEN SHIP:VERTICALSPEED > -1 THEN {
+	PrtLog("END BREAK. MAN. ("+h9+") AT RADAR ALT "+round(ALT:RADAR,2)).
 	SET TSET TO 0.
 	}.
 }.
@@ -137,6 +168,18 @@ WHEN STAGE:LIQUIDFUEL < 1 THEN {
 	PrtLog("STARTING NEXT ENGINE").
 	STAGE.
 	PRESERVE.
+}.
+
+WHEN SHIP:STATUS = "LANDED" THEN {
+	SET TSET TO 0.
+	RCS OFF.
+	PrtLog("TOUCHTDOWN! MECO & RCS OFF!").
+}.
+
+UNTIL END_LANDING = 1 {
+PrtMissParam().
+PrtLandParam().
+wait 0.1.
 }.
 
 WAIT UNTIL END_LANDING = 1.
