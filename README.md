@@ -26,7 +26,8 @@ SET LV_ESCAPE TO 0.		      	// ESCAPE SYSTEM
 SET LV_PCS TO 0.			        // PROPELLANT CROSSFEED SYSTEM
 SET LV_PCS_STAGE TO 0.			  // PROPELLANT CROSSFEED SYSTEM STAGES
 ```
-
+| Parameter | Description |
+|: --------| :--------- |
 | SRB_STAGE | Stages with Solid Rocket Boosters |
 | LIFT_STAGES| How many stages until end of Launch Script |
 | PRELAUNCH_STG |How many stages until vehicle will liftoff |
