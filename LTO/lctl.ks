@@ -21,7 +21,7 @@ UNTIL TIME:DAY = STARTDAY {
 }.
 PrtLog("DATE OF LAUNCH (DAY) REACHED: "+STARTDAY).
 IF WARP > 5 {
-	SET WARP TO 5. 
+	SET WARP TO 5.
 }.
 UNTIL TIME:HOUR = STARTHOUR {
 	PrtMissParam().
@@ -66,7 +66,7 @@ declare parameter PRESTAGE.
                 WAIT 1.
                 SET CNTDWN to CNTDWN -1.
         }.
-	MissScrInit().
+//	MissScrInit().
         IF PRESTAGE = 1 {
         PrtLog("MAIN ENGINE START").
         STAGE.
@@ -93,7 +93,9 @@ declare parameter PRESTAGE.
 }.
 
 //BEGIN PRELAUNCH MAIN PROGRAM
-
+SET TERMINAL:HEIGHT TO 60.
+SET TERMINAL:WIDTH TO 80.
+SET TERMINAL:BRIGHTNESS TO 1.0.
 MissScrInit().
 PrtMissParam().
 IF SIMRUN = 0 {
