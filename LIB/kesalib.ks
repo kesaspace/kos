@@ -23,7 +23,7 @@ PRINT SHIP:NAME+" MISSION LOG"  at (23,7).
 }.
 
 declare function LandScrInit {
-print "ALT-ORB:" at (49,3).		
+print "ALT-ORB:" at (49,3).
 print "ALT-RAD:" at (49,4).
 print "V-SPD:" at (49,5).
 }.
@@ -39,7 +39,7 @@ print f_getTIME at (10,2).				//TIME
 print round (MISSIONTIME,2) AT (10,3).			//MISSSION TIME
 print BODY:NAME at (10,4).				//ORBITING BODY
 print SHIP:STATUS+"   " at (10,5). 			//STATUS
-//COL2 
+//COL2
 print round(STAGE:SOLIDFUEL,1) AT (38,1).    		//FUEL (STAGE) SOLID
 print round(SHIP:LIQUIDFUEL,1) AT (38,2).		//FUEL (SHIP) LIQUID
 print round(STAGE:LIQUIDFUEL,1) AT (38,3).		//FUEL (STAGE) LIQUID
@@ -72,15 +72,15 @@ copypath ("mission.log","0:log_"+SHIP:NAME+"_"+TIME:YEAR+"_"+TIME:DAY+"_"+TIME:H
 //DELETE LOG FROM ACTIVE ARCHIVE
 declare function deletelog {
 deletepath ("mission.log").
-}.		
+}.
 //PRINT LOG IN LOGFILE AND SCREEN
 SET LOGFILE TO "mission.log".
 declare function PrtLog {
 declare parameter LOGTEXT.
 PRINT "| "+f_getTIME+"("+round(MISSIONTIME,2)+"): "+LOGTEXT AT(0,TEXTLINE).
 PRINT "|" AT (70,TEXTLINE).
-IF LOG2FILE = 1 { 
-log "Y "+TIME:YEAR+" D "+TIME:DAY+" "+f_getTIME+"("+round(MISSIONTIME,2)+"): "+LOGTEXT TO LOGFILE. 
+IF LOG2FILE = 1 {
+log "Y "+TIME:YEAR+" D "+TIME:DAY+" "+f_getTIME+"("+round(MISSIONTIME,2)+"): "+LOGTEXT TO LOGFILE.
 }.
 SET TEXTLINE TO TEXTLINE +1.
 IF TEXTLINE > 49 {
@@ -88,4 +88,3 @@ MissScrInit().
 SET TEXTLINE TO 15.
 }.
 }.
-
