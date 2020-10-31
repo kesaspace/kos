@@ -8,16 +8,17 @@ run mission.
 SET FAIR_SEP_HEIGHT TO 55000.		// FAIRING SEPERATION HEIGHT
 SET COM_SWITCH_HEIGHT TO 60000. 	// HEIGHT FOR SWITCH COM SYSTEMS
 
-// GRAV TURN PARAMETERS 
+
+// GRAV TURN PARAMETERS
 set gt0 to 150.				// FIRST HEIGHT FOR DECISION
-set gt1 to 45000.			// TARGET HEIGHT FOR LAUNCH CURVE 
-set maxq to 7000.			// MAX Q
+set gt1 to 55000.
+set maxq to 5000.			// MAX Q
 
 // END OF SETTINGS
 
 // INTERNAL PARAMETER - DO NOT CHANGE
 
-// GENERAL PARAMETERS 
+// GENERAL PARAMETERS
 SET LCTL_END TO 0.			// SET LAUNCH CTRL TO 0
 SET END_PROGRAM TO 0.
 
@@ -26,7 +27,7 @@ set euler to 2.718281828.
 set pi to 3.1415926535.
 //GRAV TURN PARAMETERS PART II
 set pitch to 0.
-set pitch0 to 0.	
+set pitch0 to 0.
 set pitch1 to 90.			// (www) NOT THE HEADING
 //set config:safe to False. 		// (www) JUST IN CASE
 
@@ -43,14 +44,14 @@ PrtLog(SHIP:NAME +" LIFTED OFF!").
 PrtLog(" -- PARAMETER FROM BOOTFILE --").
 PrtLog("SRB STAGES:        "+SRB_STAGE).
 PrtLog("LIFTING STAGES:    "+LIFT_STAGE).
-IF LV_PCS = 1 { 
+IF LV_PCS = 1 {
 PrtLog("PCS SYSTEM ENABLED").
 PrtLog("PCS STAGES:        "+LV_PCS_STAGE).
 }.
 PrtLog(" -- MISSION PARAMETER --").
 PrtLog(SHIP:NAME +"`s TARGETTED ORBIT IS "+DIRAP +" METERS HEIGHT").
 PrtLog(SHIP:NAME +"`s TARGETED HEADING IS "+DIRHDG).
-IF DIRHDG = 90 { 
+IF DIRHDG = 90 {
 PrtLog(SHIP:NAME +"`s TARGETED INCLINATION IS 0").
 }.
 IF DIRHDG < 90 {
@@ -61,7 +62,9 @@ IF DIRHDG > 90 {
 SET TARGETINC TO DIRHDG -90.
 PrtLog(SHIP:NAME +"`s TARGETED INCLINATION IS "+TARGETINC).
 }.
-
+PrtLog(SHIP:NAME +"`s FAIRING SEPERATING AT "+FAIR_SEP_HEIGHT).
+PrtLog(SHIP:NAME +"`s SWITCH COM SYSTEMS AT "+COM_SWITCH_HEIGHT).
+.
 
 
 PrtLog("TURNING ON STABLITY ASSIST UNTIL "+gt0 +"m").
@@ -97,8 +100,8 @@ WHEN SHIP:ALTITUDE > COM_SWITCH_HEIGHT AND LV_ANTENNA = 1 THEN {
 	RT_AN_MOD2:DOEVENT("deactivate").
 }.
 
-// DECOUPLE SRB 
-WHEN STAGE:SOLIDFUEL < 1 AND SRB_STAGE > 0 THEN {
+// DECOUPLE SRB
+WHEN STAGE:SOLIDFUEL < 0.5 AND SRB_STAGE > 0 THEN {
 	PrtLog("REMAINING SRB FUEL: "+STAGE:SOLIDFUEL).
 	PrtLog("SRB DECOUPLE").
 	SET SRB_STAGE TO SRB_STAGE -1.
@@ -118,10 +121,10 @@ WHEN STAGE:LIQUIDFUEL < 1 AND SHIP:STATUS ="FLYING" AND LV_PCS = 1 AND LV_PCS_ST
 
 // STAGE WHEN OUT OF FUEL - DIFFERENT APPROACH THEN PCS
 //WHEN SHIP:MAXTHRUST < 0.1 AND LIFT_STAGE > 0 THEN {
-WHEN STAGE:LIQUIDFUEL < 1 AND (SHIP:STATUS ="FLYING" OR SHIP:STATUS="SUB_ORBITAL") AND LIFT_STAGE > 0 AND SRB_STAGE < 1 THEN {
+WHEN STAGE:LIQUIDFUEL < 0.2 AND (SHIP:STATUS ="FLYING" OR SHIP:STATUS="SUB_ORBITAL") AND LIFT_STAGE > 0 AND SRB_STAGE < 1 THEN {
 	PrtLog("LIQ.FUEL END - STAGING").
 	STAGE.
-	WAIT 1.
+	WAIT 0.5.
 	PrtLog("STARTING NEXT ENGINE").
 	STAGE.
 	SET LIFT_STAGE TO LIFT_STAGE -1.
@@ -142,22 +145,23 @@ PrtMissParam().
     set ar to alt:radar.
     // control attitude
     if ar > gt0 and ar < gt1 {
-	set pitch to (90*(((cos(((ar - gt0)/(gt1 - gt0))*180)+1)/2)-1))+90. 		//FREAKY MATH THANKS INTERNET
+  	set pitch to (90*(((cos(((ar - gt0)/(gt1 - gt0))*180)+1)/2)-1))+90. 		//FREAKY MATH THANKS INTERNET
+//	set pitch to (90*(((cos(((ar - gt0)/(gt1 - gt0))*180)+0.75)/2)-1))+90. 		//FREAKY MATH THANKS INTERNET
 	lock steering to HEADING(DIRHDG,pitch).
 //   print tset at (20,11). 				// DEBUG STUFF
-//   print round(pitch) at (29,11).			// DEBUG STUFF
+    print round(pitch) at (57,4).			// DEBUG STUFF
     }
     if ar > gt1 {
 	lock steering to HEADING(DIRHDG,pitch).
     }
 //(www) dynamic pressure q
-    set ad to ad0 * euler^(-altitude/sh).    		//(www) atmospheric density 
+    set ad to ad0 * euler^(-altitude/sh).    		//(www) atmospheric density
     set q to 0.5 * ad * (velocity:surface:mag)^2.
-    print "Q:" at (49,3).				//PRINT NICE Q	
+    print "Q:" at (49,3).				//PRINT NICE Q
     print round(q)+"  " at (56,3).			//PRINT MAX Q IN SCREEN
 
 
-//(www) calculate target velocity			
+//(www) calculate target velocity
     set vl to maxq*0.9.
     set vh to maxq*1.1.
     if q < vl { set tset to 1. }
@@ -194,7 +198,7 @@ set a to (periapsis + 2*rb + apoapsis)/2. 			 // semi major axis present orbit
 set r2 to rb + apoapsis.    					 // distance after burn at apoapsis
 set a2 to (DIRAP + 2*rb + apoapsis)/2. 				 // semi major axis target orbit
 set v2 to sqrt( vom^2 + (mu * (2/r2 - 2/r + 1/a - 1/a2 ) ) ).    // I HAVE NO IDEA
-// setup node 
+// setup node
 set deltav to v2 - va.
 PrtLog("APOAPSIS BURN: " + round(va) + ", DV:" + round(deltav) + " -> " + round(v2) + "m/s").
 set nd to node(time:seconds + eta:apoapsis, 0, 0, deltav).
@@ -230,7 +234,7 @@ wait 0.1.
 PrtLog("ORBITAL BURN START " + round(nd:eta) + "s BEFORE APOAPSIS.").
 set tset to 0.
 lock throttle to tset.
-// keep ship oriented to burn direction even with small dv where node:prograde wanders off 
+// keep ship oriented to burn direction even with small dv where node:prograde wanders off
 set np to R(0,0,0) * nd:deltav.
 lock steering to np.
 set done to False.
@@ -262,23 +266,29 @@ PrtLog("APOAPSIS: " + round(apoapsis/1000,2) + "km, PERIAPSIS: " + round(periaps
 PrtLog("FUEL AFTER BURN: " + round(stage:liquidfuel)).
 wait 1.
 remove nd.
+PrtLog("Extending Solarpanels").
+PANELS ON.
 
 PrtLog("PROGRAM FINISHED").
 SET END_PROGRAM TO 1.
 
-WAIT UNTIL END_PROGRAM =1. 
+WAIT UNTIL END_PROGRAM =1.
 IF addons:rt:hasconnection(SHIP) = True AND LOG2FILE = 1 {
 	PrtLog("TRANSFERRING MISSION LOG TO GROUND CONTROLL").
 	copylog().
 	PrtLog("DELETING MISSION LOG FROM MEMORY").
-	deletelog().	
-	PrtLog("STARTINFG NEW MISSION LOG").
+	deletelog().
+	PrtLog("STARTING NEW MISSION LOG").
 	}
-ELSE 
+ELSE
 	{
 	PrtLog("NO CONNECTION TO GROUND CONTROLL POSSIBLE - MISSION LOG WILL NOT BE COPIED AND DELETED").
 	}.
 PrtLog("DELETING LTO FROM MEMORY").
 deletepath("1:/lto").
 deletepath("1:/mission").
-clearscreen.
+
+IF AFTERLTO = 1 {
+	switch to 0.
+	run otools.
+}
