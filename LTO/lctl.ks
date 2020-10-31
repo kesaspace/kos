@@ -72,13 +72,19 @@ declare parameter PRESTAGE.
         STAGE.
         LOCK THROTTLE TO 0.1.
         PrtLog("MAINTHROTTLE SET TO 10%").
-        WAIT 0.5.
-        PrtLog("MAINTHROTTLE SET TO 50%").
+        WAIT 0.25.
+				LOCK THROTTLE TO 0.25.
+				PrtLog("MAINTHROTTLE SET TO 25%").
+				WAIT 0.25.
+				PrtLog("MAINTHROTTLE SET TO 50%").
         LOCK THROTTLE TO 0.5.
-        WAIT 1.5.
+        WAIT 0.75.
+				PrtLog("MAINTHROTTLE SET TO 75%").
+        LOCK THROTTLE TO 0.5.
+        WAIT 0.25.
         PrtLog("MAINTHROTTLE SET TO 100%").
         LOCK THROTTLE TO 1.
-        WAIT 2.5.
+        WAIT 2.0.
         STAGE.
         PrtLog("LIFTOFF").
 	SET LCTL_END TO 1.
