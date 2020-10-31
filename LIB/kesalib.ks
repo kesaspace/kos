@@ -13,8 +13,8 @@ SET TEXTLINE TO 9.
 PRINT "---------------------------------------------------------------------".
 PRINT " DATE                  | FUEL SOLID            | NODE                ".
 PRINT " TIME                  | FUEL LQ-SHIP          | COM                 ".
-PRINT " MTIME                 | FUEL LQ-STAG          |                     ".
-PRINT " ORBITING              | FUEL MPROP            |	                    ".
+PRINT " MTIME                 | FUEL LQ-STAG          | Q                   ".
+PRINT " ORBITING              | FUEL MPROP            | ANG                 ".
 PRINT " STATUS                | E-CHARGE              |	                    ".
 PRINT "---------------------------------------------------------------------".
 PRINT "                                                                     ".
@@ -83,7 +83,9 @@ IF LOG2FILE = 1 {
 log "Y "+TIME:YEAR+" D "+TIME:DAY+" "+f_getTIME+"("+round(MISSIONTIME,2)+"): "+LOGTEXT TO LOGFILE.
 }.
 SET TEXTLINE TO TEXTLINE +1.
-IF TEXTLINE > 49 {
+SET TERMINAL:WIDTH TO 70.
+SET TERMINAL:HEIGHT TO 60.
+IF TEXTLINE > 55 {
 MissScrInit().
 SET TEXTLINE TO 15.
 }.
