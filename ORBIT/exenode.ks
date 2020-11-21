@@ -1,4 +1,5 @@
 run kesalib.
+run mission.
 // execute maneuver node
 MissScrInit().
 set nd to nextnode.
@@ -9,7 +10,13 @@ set dob to nd:deltav:mag/maxa.     // incorrect: should use tsiolkovsky formula
 PrtLog(" MAX ACC: " + round(maxa) + "m/s^2, BURN DURATION: " + round(dob) + "s").
 PrtLog("TURNING SHIP TO BURN DIRECTION.").
 sas off.
+IF
 rcs off.
+if ORB_RCS = 1  {
+  rcs on.
+}
+
+
 // workaround for steering:pitch not working with node assigned
 set np to R(0,0,0) * nd:deltav.
 lock steering to np.
@@ -28,14 +35,14 @@ WHEN SHIP:MAXTHRUST < 0.1 THEN {
         WAIT 1.
         STAGE.
         PRESERVE.
-        }.  
+        }.
 
 
 
 PrtLog("ORBITAL BURN START " + round(nd:eta) + "s BEFORE APOAPSIS.").
 set tset to 0.
 lock throttle to tset.
-// keep ship oriented to BURN direction even with small dv where node:prograde wanders off 
+// keep ship oriented to BURN direction even with small dv where node:prograde wanders off
 set np to R(0,0,0) * nd:deltav.
 lock steering to np.
 set done to False.
@@ -69,4 +76,3 @@ wait 1.
 remove nd.
 set NODE_FINISHED TO 1.
 clearscreen.
-

@@ -4,57 +4,6 @@ run kesalib.
 //PARAMETERS
 
 //FUNCTIONS AND PROCEDURES
-declare function waitstart {
-declare parameter STARTYEAR.
-declare parameter STARTDAY.
-declare parameter STARTHOUR.
-declare parameter STARTMIN.
-declare parameter STARTSEC.
-PrtLog("LAUNCH SCHEDULED TO: Y:"+STARTYEAR+" D:"+STARTDAY+" - "+STARTHOUR+":"+STARTMIN+":"+STARTSEC).
-PrtLog("Waiting...").
-UNTIL TIME:YEAR = STARTYEAR {
-	PrtMissParam().
-}.
-PrtLog("DATE OF LAUNCH (YEAR) REACHED: "+STARTYEAR).
-UNTIL TIME:DAY = STARTDAY {
-	PrtMissParam().
-}.
-PrtLog("DATE OF LAUNCH (DAY) REACHED: "+STARTDAY).
-IF WARP > 5 {
-	SET WARP TO 5.
-}.
-UNTIL TIME:HOUR = STARTHOUR {
-	PrtMissParam().
-}.
-PrtLog("DATE OF LAUNCH (HOUR) REACHED: "+STARTHOUR).
-IF WARP > 4 {
-	SET WARP TO 4.
-}.
-UNTIL TIME:MINUTE = STARTMIN -10 {
-	PrtMissParam().
-}.
-IF WARP > 3 {
-SET WARP TO 3.
-}.
-UNTIL TIME:MINUTE = STARTMIN -1 {
-	PrtMissParam().
-}.
-IF WARP > 2 {
-SET WARP TO 2.
-}.
-UNTIL TIME:MINUTE = STARTMIN {
-	PrtMissParam().
-}.
-PrtLog("DATE OF LAUNCH (MINUTE) REACHED: "+STARTMIN).
-SET WARP TO 0.
-UNTIL round(TIME:SECOND,0) = STARTSEC {
-	PrtMissParam().
-}.
-PrtLog("DATE OF LAUNCH (SECOND) REACHED: "+STARTSEC).
-}.
-
-
-
 //countdown procedure
 declare function countdown {
 declare parameter CNTDWN.
