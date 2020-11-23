@@ -2,6 +2,8 @@ declare parameter nodealt.
 SET TEXTLINE TO 2.
 run kesalib.
 run bodyprops.
+run mission.
+
 clearscreen.
 // create apoapsis maneuver node
 PrtLog("APOAPSIS MANEUVER, ORBITING " + body:name).
@@ -18,7 +20,7 @@ set a to (periapsis + 2*rb + apoapsis)/2. // semi major axis present orbit
 set r2 to rb + apoapsis.    // distance after burn at apoapsis
 set a2 to (nodealt + 2*rb + apoapsis)/2. // semi major axis target orbit
 set v2 to sqrt( vom^2 + (mu * (2/r2 - 2/r + 1/a - 1/a2 ) ) ).
-// setup node 
+// setup node
 set deltav to v2 - va.
 PrtLog("APOAPSIS BURN: " + round(va) + ", dv:" + round(deltav) + " -> " + round(v2) + "m/s").
 set nd to node(time:seconds + eta:apoapsis, 0, 0, deltav).
