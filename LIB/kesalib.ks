@@ -3,6 +3,7 @@
 // REMARKS:
 // POS COL 3, ROW 3 FOR Q
 // POS COL 3, ROW 4-5 FOR DEBUGGIMNG
+// POS COL 3, ROW 4 FOR ANGLE DURING START
 global TTIME is 0.
 
 declare function MissScrInit {
@@ -33,29 +34,30 @@ if addons:rt:hasconnection(SHIP) = True { set COMCON to "CONNECTED". } else { SE
 if hasnode= True { set MNODE to "SET". } else { SET MNODE to "NONE". }.   // IS NODE AVIABLE
 
 //COL1
-print "Y:"+TIME:YEAR AT (10,1).				//YEAR
-print " D:"+TIME:DAY AT (14,1).				//DAY
-print f_getTIME at (10,2).				//TIME
-print round (MISSIONTIME,2) AT (10,3).			//MISSSION TIME
-print BODY:NAME at (10,4).				//ORBITING BODY
-print SHIP:STATUS+"   " at (10,5). 			//STATUS
+print "Y:"+TIME:YEAR AT (10,1).           				//YEAR
+print " D:"+TIME:DAY AT (14,1).				            //DAY
+print f_getTIME at (10,2).				                //TIME
+print round (MISSIONTIME,2) AT (10,3).			      //MISSSION TIME
+print BODY:NAME at (10,4 ).				                //ORBITING BODY
+print SHIP:STATUS+"   " at (10,5). 			          //STATUS
 //COL2
-print round(STAGE:SOLIDFUEL,1) AT (38,1).    		//FUEL (STAGE) SOLID
-print round(SHIP:LIQUIDFUEL,1) AT (38,2).		//FUEL (SHIP) LIQUID
-print round(STAGE:LIQUIDFUEL,1) AT (38,3).		//FUEL (STAGE) LIQUID
+print round(STAGE:SOLIDFUEL,1) AT (38,1).    		  //FUEL (STAGE) SOLID
+print round(SHIP:LIQUIDFUEL,1) AT (38,2).		      //FUEL (SHIP) LIQUID
+print round(STAGE:LIQUIDFUEL,1) AT (38,3).		    //FUEL (STAGE) LIQUID
 print round(STAGE:MONOPROPELLANT,1) AT (38,4).		//FUEL (STAGE) NONOP
 print round(STAGE:ELECTRICCHARGE,1) AT (38,5).		//FUEL (STAGE) ELECTRIC
 //COL 3
-print MNODE+"    " at (57,1).				//NODE AVIABLE?
-print COMCON+"    " at (57,2). 				//CONNECTED ?
+print MNODE+"    " at (57,1).	              			//NODE AVIABLE?
+print COMCON+"    " at (57,2). 				            //CONNECTED ?
 }.
 
 declare function PrtLandParam {
-print round(SHIP:ALTITUDE,1) at (57,3).			//SHIP ALTITUDE
-print round(ALT:RADAR,1) at (57,4).			//SHIP ALTITUDE (RADAR)
-print round(SHIP:VERTICALSPEED,2) at (57,5).		//SHIP VERTICAL SPEED
+print round(SHIP:ALTITUDE,1) at (57,3).			      //SHIP ALTITUDE
+print round(ALT:RADAR,1) at (57,4).			          //SHIP ALTITUDE (RADAR)
+print round(SHIP:VERTICALSPEED,2) at (57,5).		  //SHIP VERTICAL SPEED
 }.
 
+//Remote Tech Connection
 declare function f_getCOM {
 if addons:rt:hasconnection(SHIP) = True { set COMCON to "CONNECTED". } else { SET COMCON TO "NOT CONNECTED". }. //HAS THE SHIP CONNECTION
 }.
@@ -85,6 +87,7 @@ log "Y "+TIME:YEAR+" D "+TIME:DAY+" "+f_getTIME+"("+round(MISSIONTIME,2)+"): "+L
 SET TEXTLINE TO TEXTLINE +1.
 SET TERMINAL:WIDTH TO 70.
 SET TERMINAL:HEIGHT TO 60.
+SET TERMINAL:BRIGHTNESS TO 1.
 IF TEXTLINE > 55 {
 MissScrInit().
 SET TEXTLINE TO 15.
