@@ -10,7 +10,6 @@ set dob to nd:deltav:mag/maxa.     // incorrect: should use tsiolkovsky formula
 PrtLog(" MAX ACC: " + round(maxa) + "m/s^2, BURN DURATION: " + round(dob) + "s").
 PrtLog("TURNING SHIP TO BURN DIRECTION.").
 sas off.
-IF
 rcs off.
 if ORB_RCS = 1  {
   rcs on.
