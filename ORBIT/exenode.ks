@@ -1,7 +1,11 @@
 run kesalib.
 run mission.
 // execute maneuver node
-MissScrInit().
+if not (defined NO_FIRST_RUN) {
+  MissScrInit().
+}.
+
+
 set nd to nextnode.
 PrtLog("NODE APOAPSIS: " + round(nd:orbit:APOAPSIS/1000,2) + "km, PERIAPSIS: " + round(nd:orbit:PERIAPSIS/1000,2) + "km").
 PrtLog("NODE IN: " + round(nd:eta) + ", DELTA-V: " + round(nd:deltav:mag)).
@@ -74,4 +78,4 @@ PrtLog("FUEL FUEL BURN: " + round(stage:liquidfuel)).
 wait 1.
 remove nd.
 set NODE_FINISHED TO 1.
-clearscreen.
+//clearscreen.
