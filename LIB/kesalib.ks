@@ -1,5 +1,5 @@
 // KESA KOS LIBS
-// writen by WeirdCulture - Master of KESA SPACE
+// writen by WeirdCulture - Weirdo of KESA SPACE
 // REMARKS:
 // POS COL 3, ROW 3 FOR Q
 // POS COL 3, ROW 4-5 FOR DEBUGGIMNG
