@@ -1,6 +1,6 @@
 /// KESA SPACE LANDING LAUNCHSCRIPT
 // WORKS FOR : 		MUN (Tested)
-// USAGE: 				kesaland (ENTRYHEIGHT,STOPSPEED) ( eg: "kesaland(35000,5)")
+// USAGE: 			kesaland (ENTRYHEIGHT,STOPSPEED) ( eg: "kesaland(35000,5)")
 // ENTRYHEIGHT:  	Height where any breaking actions should be taken ( height 0(h0))
 // STOPSPEED: 		Speed for landing (touchdownspeed)
 
