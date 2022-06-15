@@ -12,20 +12,18 @@ Each script has some configuration scripts, and some running scripts
 
 | Script Name | Type | Purpose | Used By |
 
-
 ## boot files
 Each spacecraft has its on *bootfile* found in *boot*
 
-```
-SET SRB_STAGE TO 1.			      // SRB STAGES
-SET LIFT_STAGE TO 2.      		// LIFTING STAGE
-SET PRELAUNCH_STG TO 1.			  // PRE LAUNCH STAGE
-SET LV_FAIRING TO 1.			    // FAIRING EXISTANT
-SET LV_ANTENNA TO 1.			    // ANTENNA SWITCH
-SET LV_ESCAPE TO 0.		      	// ESCAPE SYSTEM
-SET LV_PCS TO 0.			        // PROPELLANT CROSSFEED SYSTEM
-SET LV_PCS_STAGE TO 0.			  // PROPELLANT CROSSFEED SYSTEM STAGES
-```
+SET SRB_STAGE TO 1.         // SRB STAGES
+SET LIFT_STAGE TO 2.        // LIFTING STAGE
+SET PRELAUNCH_STG TO 1.     // PRE LAUNCH STAGE
+SET LV_FAIRING TO 1.        // FAIRING EXISTANT
+SET LV_ANTENNA TO 1.        // ANTENNA SWITCH
+SET LV_ESCAPE TO 0.         // ESCAPE SYSTEM
+SET LV_PCS TO 0.            // PROPELLANT CROSSFEED SYSTEM
+SET LV_PCS_STAGE TO 0.      // PROPELLANT CROSSFEED SYSTEM STAGES
+
 | Parameter | Description |
 |: --------| :--------- |
 | SRB_STAGE | Stages with Solid Rocket Boosters |
@@ -53,7 +51,29 @@ The main scripts:
 LTO/lto.ks
 LTO/lctl.ks
 
-#DISCLAIMER:
+# How to get into orbit?
+1. Start at archive (if not "switch to 0." see kOS settings to start on archive)
+2. "run launch.ks"
+
+This will do following: 
+0. switch to aechive if not already done
+1. Copy some files to the LV
+   1. lto = the "Launch To Orbit" script.. the main script for getting of Kerbin
+   1. lctl = the launch control script, stuff like pre launch handling and other things
+   2. mission = mission for some basic stuff like start hdg and other stuff
+   3. kesalib = main libary with functions needed for kesa (outpouts formating and other stuff )
+   4. bodyprops = some definitions of space bodies
+2. switch back to LV
+3. run lto
+   1. lto will read kesalib
+   2. lto will read misssion
+   3. lto will run lctl
+   4. lto will get you into orbit
+
+
+
+
+# DISCLAIMER:
 I am using a lot of code from http://kos.wikia.com/wiki/Mission_toolkit_v3 which is written b y "Baloan". I could not find any license there :(  Whoever you are, you have done a great job, even if I don't understand some parts why you did this and that in the way you did it. Her/his code is being used in following scripts:
 
 - LTO/lto.ks
