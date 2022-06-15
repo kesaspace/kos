@@ -10,16 +10,16 @@ SET COM_SWITCH_HEIGHT TO 60000. 	// HEIGHT FOR SWITCH COM SYSTEMS
 
 
 // GRAV TURN PARAMETERS
-set gt0 to 150.				// FIRST HEIGHT FOR DECISION
+set gt0 to 150.						// FIRST HEIGHT FOR DECISION
 set gt1 to 55000.
-set maxq to 5000.			// MAX Q
+set maxq to 5000.					// MAX Q
 
 // END OF SETTINGS
 
 // INTERNAL PARAMETER - DO NOT CHANGE
 
 // GENERAL PARAMETERS
-SET LCTL_END TO 0.			// SET LAUNCH CTRL TO 0
+SET LCTL_END TO 0.					// SET LAUNCH CTRL TO 0
 SET END_PROGRAM TO 0.
 
 //MATH PARAMETER
@@ -28,7 +28,7 @@ set pi to 3.1415926535.
 //GRAV TURN PARAMETERS PART II
 set pitch to 0.
 set pitch0 to 0.
-set pitch1 to 90.			// (www) NOT THE HEADING
+set pitch1 to 90.					// (www) NOT THE HEADING
 //set config:safe to False. 		// (www) JUST IN CASE
 
 // START COUNTDOWN AND RUN
