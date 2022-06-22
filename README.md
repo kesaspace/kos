@@ -10,7 +10,7 @@ Structure of the Scripts:
 
 ## Main Launch script LTO/launch (LaunchToOrbit)
 
-Each script has some configuration scripts, and some running scripts
+Each script has some configuration scripts, and some running subscripts
 
 | Script Name | Type | Purpose | Used By |
 
@@ -18,6 +18,7 @@ Each script has some configuration scripts, and some running scripts
 
 Each spacecraft has its on *bootfile* found in *boot*
 
+```
 SET SRB_STAGE TO 1.         // SRB STAGES
 SET LIFT_STAGE TO 2.        // LIFTING STAGE
 SET PRELAUNCH_STG TO 1.     // PRE LAUNCH STAGE
@@ -25,10 +26,11 @@ SET LV_FAIRING TO 1.        // FAIRING EXISTANT
 SET LV_ANTENNA TO 1.        // ANTENNA SWITCH
 SET LV_ESCAPE TO 0.         // ESCAPE SYSTEM
 SET LV_PCS TO 0.            // PROPELLANT CROSSFEED SYSTEM
-SET LV_PCS_STAGE TO 0.      // PROPELLANT CROSSFEED SYSTEM STAGES
+SET LV_PCS_STAGE TO 0.      // PROPELLANT CROSSFEED SYSTEM STAGES`
+```
 
 | Parameter | Description |
-|: --------| :--------- |
+| --------| :--------- |
 | SRB_STAGE | Stages with Solid Rocket Boosters |
 | LIFT_STAGES| How many stages until end of Launch Script |
 | PRELAUNCH_STG |How many stages until vehicle will liftoff |
@@ -41,17 +43,15 @@ SET LV_PCS_STAGE TO 0.      // PROPELLANT CROSSFEED SYSTEM STAGES
 We have different scripts for different parts of the mission.
 We have the main Library with supporting stuff:
 
-- LIB/kesalib.ks
-
-then there are some variables about planetary bodies
-
-- LIB/bodyprops.ks
-
-all you need to get into orbit is stored in the LTO (Launch To Orbit) folder.
-
-The main scripts:
-LTO/lto.ks
-LTO/lctl.ks
+| File | What for|
+| --------|:--------|
+|LIB/kesalib.ks| Libary for a lot of stuff needed for outputs and other stuff|
+|LIB/bodyprops.ks| some variables about planetary bodies|
+|LTO/lto.ks| **L**aunch **T**o **O**rbit Main Script|
+|LTO/lctl.ks| Launch Control, some stuff for starting the launch|
+|LTO/mission.ks|Mission specific parameter|
+|launch.ks| Starts Launch|
+|otools.ks| copy orbital tools to craft :1 |
 
 ## How to get into orbit?
 
