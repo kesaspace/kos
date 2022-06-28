@@ -37,15 +37,15 @@ if hasnode= True { set MNODE to "SET". } else { SET MNODE to "NONE". }.   // IS 
 print "Y:"+TIME:YEAR AT (10,1).           				//YEAR
 print " D:"+TIME:DAY AT (14,1).				            //DAY
 print f_getTIME at (10,2).				                //TIME
-print round (MISSIONTIME,2) AT (10,3).			      //MISSSION TIME
+print round (MISSIONTIME,2) AT (10,3).			        //MISSSION TIME
 print BODY:NAME at (10,4 ).				                //ORBITING BODY
-print SHIP:STATUS+"   " at (10,5). 			          //STATUS
+print SHIP:STATUS+"   " at (10,5). 			            //STATUS
 //COL2
-print round(STAGE:SOLIDFUEL,1) AT (38,1).    		  //FUEL (STAGE) SOLID
-print round(SHIP:LIQUIDFUEL,1) AT (38,2).		      //FUEL (SHIP) LIQUID
-print round(STAGE:LIQUIDFUEL,1) AT (38,3).		    //FUEL (STAGE) LIQUID
-print round(STAGE:MONOPROPELLANT,1) AT (38,4).		//FUEL (STAGE) NONOP
-print round(STAGE:ELECTRICCHARGE,1) AT (38,5).		//FUEL (STAGE) ELECTRIC
+print round(STAGE:SOLIDFUEL,1) AT (38,1).    		    //FUEL (STAGE) SOLID
+print round(SHIP:LIQUIDFUEL,1) AT (38,2).		        //FUEL (SHIP) LIQUID
+print round(STAGE:LIQUIDFUEL,1) AT (38,3).		        //FUEL (STAGE) LIQUID
+print round(STAGE:MONOPROPELLANT,1) AT (38,4).		    //FUEL (STAGE) NONOP
+print round(STAGE:ELECTRICCHARGE,1) AT (38,5).		    //FUEL (STAGE) ELECTRIC
 //COL 3
 print MNODE+"    " at (57,1).	              			//NODE AVIABLE?
 print COMCON+"    " at (57,2). 				            //CONNECTED ?
