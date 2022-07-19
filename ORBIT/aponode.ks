@@ -1,8 +1,9 @@
 declare parameter nodealt.
 SET TEXTLINE TO 2.
+run mission.
 run kesalib.
 run bodyprops.
-run mission.
+
 
 clearscreen.
 // create apoapsis maneuver node

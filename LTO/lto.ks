@@ -73,7 +73,13 @@ SAS ON.
 // DEPLOYING FAIRING
 WHEN SHIP:ALTITUDE > FAIR_SEP_HEIGHT AND LV_FAIRING = 1 THEN {
 	PrtLog("FAIRING SEPERATION").
-	set p_fairing to ship:partsnamed("fairingSize1")[0].
+	IF DEFINED LV_FAIRING_TYPE {
+		set p_fairing to ship:partsnamed(LV_FAIRING_TYPE)[0].
+	}
+	else 
+	{
+		set p_fairing to ship:partsnamed("fairingSize1")[0].
+	}
 	set m_fairing to p_fairing:getmodule("ModuleProceduralFairing").
 	m_fairing:doevent("deploy").
 }.

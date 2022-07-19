@@ -1,8 +1,9 @@
 declare parameter alt.
 SET TEXTLINE TO 2.
+run mission.
 run kesalib.
 run bodyprops.
-run mission.
+
 
 if not (defined NO_FIRST_RUN) {
   clearscreen.
