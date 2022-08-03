@@ -34,7 +34,7 @@ SET LV_PCS_STAGE TO 0.      // PROPELLANT CROSSFEED SYSTEM STAGES`
 | SRB_STAGE | Stages with Solid Rocket Boosters |
 | LIFT_STAGES| How many stages until end of Launch Script |
 | PRELAUNCH_STG |How many stages until vehicle will liftoff |
-| LV_FAIRING |Any Fairing |
+| LV_FAIRING |Any Fairing  |
 | LV_ANTENNA |Is there any antenna on the vechicle and needed to be switched? |
 | LV_ESCAPE |Any Escape System onboard |
 | LV_PCS | Is any Propellant Crossfreed System (Asparagus) existant |

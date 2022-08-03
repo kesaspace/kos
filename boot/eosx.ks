@@ -1,6 +1,6 @@
 //LV-PARAMETER AND LAUNCHPARAMETER
-//VESSEL MAME: EOS 0
-//Early beginning launch vessel
+//VESSEL MAME: EOS X
+//EXPERIMENTAL
 SET SRB_STAGE TO 1.                     // SRB STAGES
 SET LIFT_STAGE TO 5.                    // LIFTING STAGE (usualy stages +1)
 SET PRELAUNCH_STG TO 0.                 // PRE LAUNCH STAGE
