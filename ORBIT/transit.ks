@@ -22,5 +22,5 @@ WAIT 1.
 
 PrtLog("ARRIVED AT "+ body:name).
 SET NO_FIRST_RUN to 1.
-run perinode(O_BODY_AE).
+//run perinode(O_BODY_AE).
 run exenode.

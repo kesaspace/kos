@@ -40,7 +40,9 @@ PrtLog("DELETING LCTL FROM MEMORY").
 deletepath("1:/lctl").
 run bodyprops.
 PrtLog(SHIP:NAME +" LIFTED OFF!").
-//PrtLog("Bootfile "+LV_BOOTFILE+" loaded").
+IF DEFINED LV_BOOTFILE {
+	PrtLog("Bootfile "+LV_BOOTFILE+" loaded").
+}
 PrtLog(" -- PARAMETER FROM BOOTFILE --").
 PrtLog("SRB STAGES:        "+SRB_STAGE).
 PrtLog("LIFTING STAGES:    "+LIFT_STAGE).

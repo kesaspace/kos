@@ -9,6 +9,8 @@ if not (defined NO_FIRST_RUN) {
   clearscreen.
 }.
 
+MissScrInit().
+
 // create periapsis maneuver node
 PrtLog("PERIAPSIS MENEUVER, ORBITING " + body:name).
 PrtLog("APOAPSIS: " + round(apoapsis/1000) + "km -> " + round(alt/1000) + "km").
