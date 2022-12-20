@@ -1,3 +1,10 @@
+// Simple Script to get into orbit of the target body
+// Usage: 
+// 1. make a insertion burn to the other body
+// 2. set a node at the PE of the other body 
+// 3. run transit($body) (example: run transit(Mun))
+// 4. wait
+
 declare parameter next_body.
 SET TEXTLINE TO 2.
 run kesalib.

@@ -1,5 +1,9 @@
 // LAUNCH TO ORBIT
 // LAUNCHSCRIPT ALL IN ONE FOR KEerbin Space Agency
+// Notes: 
+//
+// For Launch Escape System: name decoupler for Launch Escape System: LES_Decoupler
+
 run kesalib.
 run mission.
 
@@ -92,7 +96,7 @@ WHEN SHIP:ALTITUDE > FAIR_SEP_HEIGHT AND LV_ESCAPE = 1 THEN {
 	set p_lescape to ship:partsnamed("LaunchEscapeSystem")[0].
 	set m_lescape to p_lescape:getmodule("ModuleEnginesFX").
 	m_lescape:doevent("activate engine").
-	set p_lescapesep to ship:partsnamed("stackSeparatorMini")[0].
+	set p_lescapesep to ship:partstagged("LES_Decoupler")[0].
 	set m_lescapesep to p_lescapesep:getmodule("ModuleDecouple").
 	m_lescapesep:doevent("decouple").
 	}.
@@ -132,7 +136,8 @@ WHEN STAGE:LIQUIDFUEL < 1 AND SHIP:STATUS ="FLYING" AND LV_PCS = 1 AND LV_PCS_ST
 WHEN STAGE:LIQUIDFUEL < 0.2 AND (SHIP:STATUS ="FLYING" OR SHIP:STATUS="SUB_ORBITAL") AND LIFT_STAGE > 0 AND SRB_STAGE < 1 THEN {
 	PrtLog("LIQ.FUEL END - STAGING").
 	STAGE.
-	WAIT 0.5.
+//	WAIT 0.5.
+	WAIT 1.
 	PrtLog("STARTING NEXT ENGINE").
 	STAGE.
 	SET LIFT_STAGE TO LIFT_STAGE -1.
