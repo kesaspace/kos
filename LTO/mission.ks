@@ -2,7 +2,7 @@
 // set DIRAP fot target height
 // set DIRHDG 335 for a nice polar orbit.
 
-SET DIRHDG TO 90.       // DIRECTION OF FLIGHT
+SET DIRHDG TO 4.       // DIRECTION OF FLIGHT
 SET DIRAP TO 90000.     // TARGET AP
 
 // LV PARAMETERS ARE IN BOOT FILE NOW.
