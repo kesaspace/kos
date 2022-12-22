@@ -79,7 +79,7 @@ SAS ON.
 // DEPLOYING FAIRING
 WHEN SHIP:ALTITUDE > FAIR_SEP_HEIGHT AND LV_FAIRING = 1 THEN {
 	PrtLog("FAIRING SEPERATION").
-	IF DEFINED LV_FAIRING_TYPE {
+	IF defined LV_FAIRING_TYPE {
 		set p_fairing to ship:partsnamed(LV_FAIRING_TYPE)[0].
 	}
 	else 
@@ -102,14 +102,26 @@ WHEN SHIP:ALTITUDE > FAIR_SEP_HEIGHT AND LV_ESCAPE = 1 THEN {
 	}.
 
 // SWITCHING COM-SYSTEM TO PAYLOAD
+
 WHEN SHIP:ALTITUDE > COM_SWITCH_HEIGHT AND LV_ANTENNA = 1 THEN {
 	PrtLog("ENABLING COM SYSTEMS").
-	set RT_AN1 to SHIP:PARTSNAMED("longAntenna")[0].
-	SET RT_AN_MOD1 to RT_AN1:GETMODULE("ModuleRTAntenna").
-	RT_AN_MOD1:DOEVENT("activate").
-	set RT_AN2 to SHIP:PARTSNAMED("RTShortAntenna1")[0].
-	SET RT_AN_MOD2 to RT_AN2:GETMODULE("ModuleRTAntenna").
-	RT_AN_MOD2:DOEVENT("deactivate").
+	if defined PL_ANTENNA_TYPE {
+		set RT_AN1 to SHIP:PARTSNAMED(PL_ANTENNA_TYPE)[0].
+		set RT_AN_MOD1 to RT_AN1:GETMODULE("ModuleRTAntenna").
+		RT_AN_MOD1:DOEVENT("activate").
+		set RT_AN2 to SHIP:PARTSNAMED("RTShortAntenna1")[0].
+		set RT_AN_MOD2 to RT_AN2:GETMODULE("ModuleRTAntenna").
+		RT_AN_MOD2:DOEVENT("deactivate").	
+	}
+	else
+	{
+		set RT_AN1 to SHIP:PARTSNAMED("longAntenna")[0].
+		SET RT_AN_MOD1 to RT_AN1:GETMODULE("ModuleRTAntenna").
+		RT_AN_MOD1:DOEVENT("activate").
+		set RT_AN2 to SHIP:PARTSNAMED("RTShortAntenna1")[0].
+		SET RT_AN_MOD2 to RT_AN2:GETMODULE("ModuleRTAntenna").
+		RT_AN_MOD2:DOEVENT("deactivate").
+	}
 }.
 
 // DECOUPLE SRB
